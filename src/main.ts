@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import "./main.css";
 import MyScene from "./scenes/MyScene";
 
 const config: Phaser.Types.Core.GameConfig = {
@@ -10,6 +11,9 @@ const config: Phaser.Types.Core.GameConfig = {
     arcade: {
       gravity: { y: 200 },
     },
+  },
+  scale: {
+    mode: Phaser.Scale.FIT,
   },
   scene: MyScene,
 };
