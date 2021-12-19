@@ -1,6 +1,8 @@
 import Phaser from 'phaser'
 import './main.css'
-import MyScene from './scenes/MyScene'
+// import MyScene from './scenes/MyScene'
+// import Dungeon from './scenes/Dungeon'
+import MapEditorScene from './scenes/MapEditor'
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
@@ -15,7 +17,7 @@ const config: Phaser.Types.Core.GameConfig = {
   scale: {
     mode: Phaser.Scale.FIT
   },
-  scene: MyScene
+  scene: MapEditorScene
 }
 // eslint-disable-next-line no-new
 new Phaser.Game(config)
