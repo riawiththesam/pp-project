@@ -1,9 +1,10 @@
 import Phaser from 'phaser'
-import { MapEditorIntaractor, MapEditorUseCase } from '../usecases/mapeditor/MapEditorUseCase'
+import { MapEditorIntaractor } from '../usecases/mapeditor/MapEditorUseCase'
 import { Map } from '../gameobjects/map/Map'
+import { MapEditorViewModel } from './MapEditorViewModel'
 
 export default class MapEditorScene extends Phaser.Scene {
-  private usecase: MapEditorUseCase = MapEditorIntaractor
+  private mapEditorViewModel = new MapEditorViewModel(MapEditorIntaractor)
 
   constructor () {
     super({ key: 'pp-map-editor' })
@@ -15,15 +16,9 @@ export default class MapEditorScene extends Phaser.Scene {
 
   create () {
     const { width, height } = this.sys.game.scale.canvas
-    const meMap = this.usecase.load()
-    console.log(meMap)
+    this.mapEditorViewModel.load()
 
     this.add.image(width / 2, height / 2, 'background')
-    const map = this.add.existing(new Map(this, width / 2, height / 2))
-    map.setMap(meMap, this.onClickMapChip)
-  }
-
-  onClickMapChip (xIndex: number, yIndex: number) {
-    console.log(`test ${yIndex} ${xIndex}`)
+    this.add.existing(new Map(this, width / 2, height / 2, this.mapEditorViewModel))
   }
 }

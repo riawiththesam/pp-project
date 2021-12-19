@@ -14,3 +14,10 @@ export const numberToType = (n: number): MEMapFloorType => {
   }
   throw Error('floorを解釈できませんでした')
 }
+
+export const typeToNumber = (meMapFloorType: MEMapFloorType): number => {
+  switch (meMapFloorType) {
+    case 'empty': return 0
+    case 'floor': return 1
+  }
+}

@@ -10,4 +10,22 @@ export class MEMap {
     public corner: MEMapCorner
   ) {
   }
+
+  static creatEmpty = () => new MEMap(
+    0,
+    0,
+    new MEMapFloor(0, 0, []),
+    { raw: [] },
+    { raw: [] }
+  )
+
+  update (floor: MEMapFloor) {
+    return new MEMap(
+      this.width,
+      this.height,
+      floor,
+      this.wall,
+      this.corner
+    )
+  }
 }

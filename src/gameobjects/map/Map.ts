@@ -1,7 +1,9 @@
 import Phaser from 'phaser'
+import { MapEditorViewModel } from '../../scenes/MapEditorViewModel'
 import { MEMap } from '../../usecases/mapeditor/MEMap'
 import { MEMapFloorType } from '../../usecases/mapeditor/MEMapFloorType'
 import { range } from '../../utils/Range'
+import { Subscription } from 'rxjs'
 
 function floorTypeToColor (floorType: MEMapFloorType): number {
   switch (floorType) {
@@ -14,14 +16,24 @@ export class Map extends Phaser.GameObjects.Container {
   constructor (
     scene: Phaser.Scene,
     x: number,
-    y: number
+    y: number,
+    private mapEditorViewModel: MapEditorViewModel
   ) {
     super(scene, x, y)
+    const composite = new Subscription()
+
+    this.on('addedtoscene', () => {
+      composite.add(this.mapEditorViewModel.map.subscribe(next => {
+        this.setMap(next)
+      }))
+    })
+    this.on('removedfromscene', () => {
+      composite.unsubscribe()
+    })
   }
 
-  setMap (
-    map: MEMap,
-    onClickItem: (xIndex: number, yIndex: number) => void
+  private setMap (
+    map: MEMap
   ) {
     const defaultColor = floorTypeToColor('empty')
     const background = this.scene.add.rectangle(0, 0, 500, 500, defaultColor)
@@ -40,7 +52,7 @@ export class Map extends Phaser.GameObjects.Container {
         chip.setInteractive()
 
         chip.on('pointerup', () => {
-          onClickItem(xIndex, yIndex)
+          this.mapEditorViewModel.onClickMapChip(map, xIndex, yIndex)
         })
 
         this.add(chip)

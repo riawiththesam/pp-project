@@ -23,12 +23,12 @@ export const MapEditorIntaractor: MapEditorUseCase = {
     const height = 20
     const floor = Array<number>(width * height).fill(1)
 
-    return {
-      width: width,
-      height: height,
-      floor: new MEMapFloor(width, height, floor),
-      wall: { raw: [] },
-      corner: { raw: [] }
-    }
+    return new MEMap(
+      width,
+      height,
+      new MEMapFloor(width, height, floor),
+      { raw: [] },
+      { raw: [] }
+    )
   }
 }
