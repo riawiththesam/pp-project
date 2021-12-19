@@ -19,7 +19,10 @@ export class Map extends Phaser.GameObjects.Container {
     super(scene, x, y)
   }
 
-  setMap (map: MEMap) {
+  setMap (
+    map: MEMap,
+    onClickItem: (xIndex: number, yIndex: number) => void
+  ) {
     const defaultColor = floorTypeToColor('empty')
     const background = this.scene.add.rectangle(0, 0, 500, 500, defaultColor)
     this.add(background)
@@ -37,7 +40,7 @@ export class Map extends Phaser.GameObjects.Container {
         chip.setInteractive()
 
         chip.on('pointerup', () => {
-          console.log(`test ${yIndex} ${xIndex}`)
+          onClickItem(xIndex, yIndex)
         })
 
         this.add(chip)
