@@ -19,6 +19,8 @@ export default class MapEditorScene extends Phaser.Scene {
     this.mapEditorViewModel.load()
 
     this.add.image(width / 2, height / 2, 'background')
-    this.add.existing(new Map(this, width / 2, height / 2, this.mapEditorViewModel))
+
+    const mapX = (width / 2) - 100
+    this.add.existing(new Map(this, mapX, height / 2, this.mapEditorViewModel))
   }
 }
