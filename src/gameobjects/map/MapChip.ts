@@ -8,16 +8,24 @@ function floorTypeToColor (floorType: MEMapFloorType): number {
   }
 }
 
+function wallTypeToAlpha (wallType: number): number {
+  if (wallType === 0) return 0
+  else return 1
+}
+
 export type OnClickMapChip = () => void
 
 export class MapChip extends Phaser.GameObjects.Container {
   private rect: Phaser.GameObjects.Rectangle
+  private walls: Array<Phaser.GameObjects.Rectangle> = []
+
   constructor (
     scene: Phaser.Scene,
     x: number,
     y: number,
     chipSize: number,
     floor: MEMapFloorType,
+    wall: Array<number>,
     onClick: OnClickMapChip
   ) {
     super(scene, x, y)
@@ -27,6 +35,20 @@ export class MapChip extends Phaser.GameObjects.Container {
     this.rect.on('pointerup', () => { onClick() })
 
     this.add(this.rect)
+
+    const wallColor = 0x00ff00
+
+    const up = this.scene.add.rectangle(0, (-chipSize / 2) + 1, chipSize, 2, wallColor, wallTypeToAlpha(wall[0]))
+    this.add(up)
+
+    const down = this.scene.add.rectangle(0, (chipSize / 2) - 1, chipSize, 2, wallColor, wallTypeToAlpha(wall[2]))
+    this.add(down)
+
+    const right = this.scene.add.rectangle((chipSize / 2) - 1, 0, 2, chipSize, wallColor, wallTypeToAlpha(wall[1]))
+    this.add(right)
+
+    const left = this.scene.add.rectangle((-chipSize / 2) + 1, 0, 2, chipSize, wallColor, wallTypeToAlpha(wall[3]))
+    this.add(left)
   }
 
   update (floor: MEMapFloorType) {

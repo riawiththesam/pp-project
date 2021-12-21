@@ -16,6 +16,12 @@ export class MEMap {
     return numberToType(this.rawFloor[index])
   }
 
+  // TODO return WallType
+  getWalls (x: number, y: number): Array<number> {
+    const index = this.width * y + x
+    return this.rawWall[index]
+  }
+
   updateFloor (x: number, y: number, value: MEMapFloorType): MEMap {
     const rawIndex = y * this.width + x
     const next = this.rawFloor.slice(0, this.rawFloor.length)
