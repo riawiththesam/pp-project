@@ -20,6 +20,7 @@ export class Map extends Phaser.GameObjects.Container {
 
     this.on('addedtoscene', () => {
       composite.add(this.mapEditorViewModel.map.subscribe(next => {
+        if (!next) return
         this.setMap(next)
       }))
     })

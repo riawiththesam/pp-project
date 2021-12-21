@@ -11,14 +11,6 @@ export class MEMap {
   ) {
   }
 
-  static creatEmpty = () => new MEMap(
-    0,
-    0,
-    [],
-    [],
-    { raw: [] }
-  )
-
   getFloor (x: number, y: number): MEMapFloorType {
     const index = this.width * y + x
     return numberToType(this.rawFloor[index])
