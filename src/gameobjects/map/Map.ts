@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import { MapEditorViewModel } from '../../scenes/MapEditorViewModel'
+import { MapEditorEditingSubject, MapEditorViewModel } from '../../scenes/MapEditorViewModel'
 import { MEMap } from '../../usecases/mapeditor/MEMap'
 import { range } from '../../utils/Range'
 import { Subscription } from 'rxjs'
@@ -22,6 +22,10 @@ export class Map extends Phaser.GameObjects.Container {
       composite.add(this.mapEditorViewModel.map.subscribe(next => {
         if (!next) return
         this.setMap(next)
+      }))
+
+      composite.add(this.mapEditorViewModel.editingSubject.subscribe(next => {
+        this.updateEditing(next)
       }))
     })
     this.on('removedfromscene', () => {
@@ -73,5 +77,9 @@ export class Map extends Phaser.GameObjects.Container {
         }
       }
     }
+  }
+
+  updateEditing (editing: MapEditorEditingSubject) {
+    this.chipList.forEach(it => it.updateEditing(editing))
   }
 }

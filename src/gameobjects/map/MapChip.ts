@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import { MapEditorEditingSubject } from '../../scenes/MapEditorViewModel'
 import { MEMapFloorType } from '../../usecases/mapeditor/MEMapFloorType'
 import { MEMapWallType } from '../../usecases/mapeditor/MEMapWallType'
 
@@ -54,5 +55,13 @@ export class MapChip extends Phaser.GameObjects.Container {
 
   update (floor: MEMapFloorType) {
     this.rect.setFillStyle(floorTypeToColor(floor))
+  }
+
+  updateEditing (editing: MapEditorEditingSubject) {
+    if (editing === 'floor') {
+      this.rect.setInteractive()
+    } else {
+      this.rect.disableInteractive()
+    }
   }
 }
