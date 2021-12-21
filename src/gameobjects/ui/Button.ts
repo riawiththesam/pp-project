@@ -1,12 +1,7 @@
 import Phaser from 'phaser'
+import { PhaserProps } from '../phaserutils/PhaserProps'
 
 type OnClick = () => void
-
-export type PhaserProps = {
-  scene: Phaser.Scene
-  x: number
-  y: number
-}
 
 export type ButtonProps = {
   texture: string
