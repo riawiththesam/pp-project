@@ -18,16 +18,28 @@ function wallTypeToAlpha (wallType: MEMapWallType): number {
 
 export type OnClickMapChip = () => void
 
+export type WallDirectionUp = 'up'
+export type WallDirectionDown = 'down'
+export type WallDirectionLeft = 'left'
+export type WallDirectionRight = 'right'
+export type WallDirectionType = WallDirectionUp | WallDirectionDown | WallDirectionLeft | WallDirectionRight
+
+export type OnClickWall = (direction: WallDirectionType) => void
+
 export type MapChipProps = {
   chipSize: number
   floor: MEMapFloorType
   walls: Array<MEMapWallType>
   onClick: OnClickMapChip
+  onClickWall: OnClickWall
 } & PhaserProps
 
 export class MapChip extends Phaser.GameObjects.Container {
   private rect: Phaser.GameObjects.Rectangle
-  private walls: Array<Phaser.GameObjects.Rectangle> = []
+  private up: Phaser.GameObjects.Rectangle
+  private down: Phaser.GameObjects.Rectangle
+  private left: Phaser.GameObjects.Rectangle
+  private right: Phaser.GameObjects.Rectangle
 
   constructor (props: MapChipProps) {
     const {
@@ -37,7 +49,8 @@ export class MapChip extends Phaser.GameObjects.Container {
       chipSize,
       floor,
       walls,
-      onClick
+      onClick,
+      onClickWall
     } = props
 
     super(scene, x, y)
@@ -50,17 +63,25 @@ export class MapChip extends Phaser.GameObjects.Container {
 
     const wallColor = 0x00ff00
 
-    const up = this.scene.add.rectangle(0, (-chipSize / 2) + 1, chipSize, 2, wallColor, wallTypeToAlpha(walls[0]))
-    this.add(up)
+    this.up = this.scene.add.rectangle(0, (-chipSize / 2) + 1, chipSize, 2, wallColor, wallTypeToAlpha(walls[0]))
+    this.up.setInteractive()
+    this.up.on('pointerdown', () => { onClickWall('up') })
+    this.add(this.up)
 
-    const down = this.scene.add.rectangle(0, (chipSize / 2) - 1, chipSize, 2, wallColor, wallTypeToAlpha(walls[2]))
-    this.add(down)
+    this.down = this.scene.add.rectangle(0, (chipSize / 2) - 1, chipSize, 2, wallColor, wallTypeToAlpha(walls[2]))
+    this.down.setInteractive()
+    this.down.on('pointerdown', () => { onClickWall('down') })
+    this.add(this.down)
 
-    const right = this.scene.add.rectangle((chipSize / 2) - 1, 0, 2, chipSize, wallColor, wallTypeToAlpha(walls[1]))
-    this.add(right)
+    this.right = this.scene.add.rectangle((chipSize / 2) - 1, 0, 2, chipSize, wallColor, wallTypeToAlpha(walls[1]))
+    this.right.setInteractive()
+    this.right.on('pointerdown', () => { onClickWall('right') })
+    this.add(this.right)
 
-    const left = this.scene.add.rectangle((-chipSize / 2) + 1, 0, 2, chipSize, wallColor, wallTypeToAlpha(walls[3]))
-    this.add(left)
+    this.left = this.scene.add.rectangle((-chipSize / 2) + 1, 0, 2, chipSize, wallColor, wallTypeToAlpha(walls[3]))
+    this.left.setInteractive()
+    this.left.on('pointerdown', () => { onClickWall('left') })
+    this.add(this.left)
   }
 
   update (floor: MEMapFloorType) {
@@ -68,10 +89,14 @@ export class MapChip extends Phaser.GameObjects.Container {
   }
 
   updateEditing (editing: MapEditorEditingSubject) {
+    const list = [this.up, this.down, this.left, this.right]
     if (editing === 'floor') {
       this.rect.setInteractive()
+      const list = [this.up, this.down, this.left, this.right]
+      list.forEach(it => it.disableInteractive())
     } else {
       this.rect.disableInteractive()
+      list.forEach(it => it.setInteractive())
     }
   }
 }

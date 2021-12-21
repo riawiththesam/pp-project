@@ -1,6 +1,7 @@
 import { BehaviorSubject } from 'rxjs'
 import { MEMap } from '../usecases/mapeditor/MEMap'
 import { MapEditorUseCase } from '../usecases/mapeditor/MapEditorUseCase'
+import { WallDirectionType } from '../gameobjects/map/MapChip'
 
 export type MapEditorEditingSubjectFloor = 'floor'
 export type MapEditorEditingSubjectWall = 'wall'
@@ -25,6 +26,10 @@ export class MapEditorViewModel {
     if (!current) return
     const next = current.updateFloor(xIndex, yIndex, 'empty')
     this.map.next(next)
+  }
+
+  onClickWall (wall: WallDirectionType) {
+    console.log(wall)
   }
 
   onClickButton () {

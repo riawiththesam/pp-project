@@ -59,6 +59,9 @@ export class Map extends Phaser.GameObjects.Container {
             walls,
             onClick: () => {
               this.mapEditorViewModel.onClickMapChip(xIndex, yIndex)
+            },
+            onClickWall: (wall) => {
+              this.mapEditorViewModel.onClickWall(wall)
             }
           })
           this.scene.add.existing(mapChip)
