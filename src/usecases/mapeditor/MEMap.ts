@@ -24,16 +24,6 @@ export class MEMap {
     return numberToType(this.rawFloor[index])
   }
 
-  update (floor: Array<number>) {
-    return new MEMap(
-      this.width,
-      this.height,
-      floor,
-      this.rawWall,
-      this.corner
-    )
-  }
-
   updateFloor (x: number, y: number, value: MEMapFloorType): MEMap {
     const rawIndex = y * this.width + x
     const next = this.rawFloor.slice(0, this.rawFloor.length)
