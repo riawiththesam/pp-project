@@ -22,7 +22,7 @@ export class MapChip extends Phaser.GameObjects.Container {
   ) {
     super(scene, x, y)
 
-    this.rect = this.scene.add.rectangle(chipSize / 2, chipSize / 2, chipSize, chipSize, floorTypeToColor(floor))
+    this.rect = this.scene.add.rectangle(0, 0, chipSize, chipSize, floorTypeToColor(floor))
     this.rect.setInteractive()
     this.rect.on('pointerup', () => { onClick() })
 
