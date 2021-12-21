@@ -1,4 +1,4 @@
-import { MEMapCorner, MEMapWall } from './MapEditorUseCase'
+import { MEMapCorner } from './MapEditorUseCase'
 import { MEMapFloorType, numberToType, typeToNumber } from './MEMapFloorType'
 
 export class MEMap {
@@ -6,7 +6,7 @@ export class MEMap {
     public width: number,
     public height: number,
     public rawFloor: Array<number>,
-    public wall: MEMapWall,
+    public rawWall: Array<Array<number>>,
     public corner: MEMapCorner
   ) {
   }
@@ -15,7 +15,7 @@ export class MEMap {
     0,
     0,
     [],
-    { raw: [] },
+    [],
     { raw: [] }
   )
 
@@ -30,7 +30,7 @@ export class MEMap {
       this.width,
       this.height,
       floor,
-      this.wall,
+      this.rawWall,
       this.corner
     )
   }
@@ -39,6 +39,6 @@ export class MEMap {
     const rawIndex = y * this.width + x
     const next = this.rawFloor.slice(0, this.rawFloor.length)
     next[rawIndex] = typeToNumber(value)
-    return new MEMap(this.width, this.height, next, this.wall, this.corner)
+    return new MEMap(this.width, this.height, next, this.rawWall, this.corner)
   }
 }
