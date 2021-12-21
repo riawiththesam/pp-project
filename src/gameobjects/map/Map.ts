@@ -50,17 +50,17 @@ export class Map extends Phaser.GameObjects.Container {
           const chipX0 = mapX0 + chipSize * xIndex + chipSize / 2
           const chipY0 = mapY0 + chipSize * yIndex + chipSize / 2
 
-          const mapChip = new MapChip(
-            this.scene,
-            chipX0,
-            chipY0,
+          const mapChip = new MapChip({
+            scene: this.scene,
+            x: chipX0,
+            y: chipY0,
             chipSize,
             floor,
             walls,
-            () => {
+            onClick: () => {
               this.mapEditorViewModel.onClickMapChip(xIndex, yIndex)
             }
-          )
+          })
           this.scene.add.existing(mapChip)
           this.add(mapChip)
 

@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import { MapEditorEditingSubject } from '../../scenes/MapEditorViewModel'
 import { MEMapFloorType } from '../../usecases/mapeditor/MEMapFloorType'
 import { MEMapWallType } from '../../usecases/mapeditor/MEMapWallType'
+import { PhaserProps } from '../phaserutils/PhaserProps'
 
 function floorTypeToColor (floorType: MEMapFloorType): number {
   switch (floorType) {
@@ -17,19 +18,28 @@ function wallTypeToAlpha (wallType: MEMapWallType): number {
 
 export type OnClickMapChip = () => void
 
+export type MapChipProps = {
+  chipSize: number
+  floor: MEMapFloorType
+  walls: Array<MEMapWallType>
+  onClick: OnClickMapChip
+} & PhaserProps
+
 export class MapChip extends Phaser.GameObjects.Container {
   private rect: Phaser.GameObjects.Rectangle
   private walls: Array<Phaser.GameObjects.Rectangle> = []
 
-  constructor (
-    scene: Phaser.Scene,
-    x: number,
-    y: number,
-    chipSize: number,
-    floor: MEMapFloorType,
-    wall: Array<MEMapWallType>,
-    onClick: OnClickMapChip
-  ) {
+  constructor (props: MapChipProps) {
+    const {
+      scene,
+      x,
+      y,
+      chipSize,
+      floor,
+      walls,
+      onClick
+    } = props
+
     super(scene, x, y)
 
     this.rect = this.scene.add.rectangle(0, 0, chipSize, chipSize, floorTypeToColor(floor))
@@ -40,16 +50,16 @@ export class MapChip extends Phaser.GameObjects.Container {
 
     const wallColor = 0x00ff00
 
-    const up = this.scene.add.rectangle(0, (-chipSize / 2) + 1, chipSize, 2, wallColor, wallTypeToAlpha(wall[0]))
+    const up = this.scene.add.rectangle(0, (-chipSize / 2) + 1, chipSize, 2, wallColor, wallTypeToAlpha(walls[0]))
     this.add(up)
 
-    const down = this.scene.add.rectangle(0, (chipSize / 2) - 1, chipSize, 2, wallColor, wallTypeToAlpha(wall[2]))
+    const down = this.scene.add.rectangle(0, (chipSize / 2) - 1, chipSize, 2, wallColor, wallTypeToAlpha(walls[2]))
     this.add(down)
 
-    const right = this.scene.add.rectangle((chipSize / 2) - 1, 0, 2, chipSize, wallColor, wallTypeToAlpha(wall[1]))
+    const right = this.scene.add.rectangle((chipSize / 2) - 1, 0, 2, chipSize, wallColor, wallTypeToAlpha(walls[1]))
     this.add(right)
 
-    const left = this.scene.add.rectangle((-chipSize / 2) + 1, 0, 2, chipSize, wallColor, wallTypeToAlpha(wall[3]))
+    const left = this.scene.add.rectangle((-chipSize / 2) + 1, 0, 2, chipSize, wallColor, wallTypeToAlpha(walls[3]))
     this.add(left)
   }
 
