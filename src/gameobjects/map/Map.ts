@@ -43,8 +43,8 @@ export class Map extends Phaser.GameObjects.Container {
     const mapX0 = -250
     const mapY0 = -250
 
-    for (const yIndex of range(0, map.floor.height)) {
-      const row = map.floor.getRow(yIndex)
+    for (const yIndex of range(0, map.height)) {
+      const row = map.getFloorRow(yIndex)
       row.forEach((item, xIndex) => {
         const chipX0 = mapX0 + chipSize * xIndex + chipSize / 2
         const chipY0 = mapY0 + chipSize * yIndex + chipSize / 2

@@ -1,5 +1,4 @@
 import { MEMap } from './MEMap'
-import { MEMapFloor } from './MEMapFloor'
 
 export type MEMapWallItem = {
   raw: Array<number>
@@ -26,7 +25,7 @@ export const MapEditorIntaractor: MapEditorUseCase = {
     return new MEMap(
       width,
       height,
-      new MEMapFloor(width, height, floor),
+      floor,
       { raw: [] },
       { raw: [] }
     )

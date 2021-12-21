@@ -16,7 +16,7 @@ export class MapEditorViewModel {
   }
 
   onClickMapChip (current: MEMap, xIndex: number, yIndex: number) {
-    const nextFloor = current.floor.update(xIndex, yIndex, 'empty')
-    this.map.next(current.update(nextFloor))
+    const next = current.updateFloor(xIndex, yIndex, 'empty')
+    this.map.next(next)
   }
 }
