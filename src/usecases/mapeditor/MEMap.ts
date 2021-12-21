@@ -19,10 +19,9 @@ export class MEMap {
     { raw: [] }
   )
 
-  getFloorRow (y: number): Array<MEMapFloorType> {
-    const index0 = this.width * y
-    const row = this.rawFloor.slice(index0, index0 + this.width)
-    return row.map((it) => numberToType(it))
+  getFloor (x: number, y: number): MEMapFloorType {
+    const index = this.width * y + x
+    return numberToType(this.rawFloor[index])
   }
 
   update (floor: Array<number>) {

@@ -39,9 +39,8 @@ export class Map extends Phaser.GameObjects.Container {
       const mapY0 = -250
 
       for (const yIndex of range(0, map.height)) {
-        const row = map.getFloorRow(yIndex)
-
-        row.forEach((item, xIndex) => {
+        for (const xIndex of range(0, map.width)) {
+          const item = map.getFloor(xIndex, yIndex)
           const chipX0 = mapX0 + chipSize * xIndex
           const chipY0 = mapY0 + chipSize * yIndex
 
@@ -52,17 +51,16 @@ export class Map extends Phaser.GameObjects.Container {
           this.add(mapChip)
 
           this.chipList.push(mapChip)
-        })
+        }
       }
     } else {
       for (const yIndex of range(0, map.height)) {
-        const row = map.getFloorRow(yIndex)
-
-        row.forEach((item, xIndex) => {
+        for (const xIndex of range(0, map.width)) {
+          const item = map.getFloor(xIndex, yIndex)
           const index = yIndex * map.width + xIndex
           const mapChip = this.chipList[index]
           mapChip.update(item)
-        })
+        }
       }
     }
   }
