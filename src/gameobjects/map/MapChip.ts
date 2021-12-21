@@ -11,7 +11,6 @@ function floorTypeToColor (floorType: MEMapFloorType): number {
 export type OnClickMapChip = () => void
 
 export class MapChip extends Phaser.GameObjects.Container {
-  // TODO Rectangleだとだめそう
   private rect: Phaser.GameObjects.Rectangle
   constructor (
     scene: Phaser.Scene,

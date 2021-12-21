@@ -61,7 +61,8 @@ export class Map extends Phaser.GameObjects.Container {
         const row = map.getFloorRow(yIndex)
 
         row.forEach((item, xIndex) => {
-          const mapChip = this.chipList[yIndex * this.width + xIndex]
+          const index = yIndex * map.width + xIndex
+          const mapChip = this.chipList[index]
           mapChip.update(item)
         })
       }
