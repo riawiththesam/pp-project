@@ -7,6 +7,7 @@ import { MapChip } from './MapChip'
 
 export class Map extends Phaser.GameObjects.Container {
   private current: MEMap | null = null
+  private chipList: Array<MapChip> = []
 
   constructor (
     scene: Phaser.Scene,
@@ -49,10 +50,21 @@ export class Map extends Phaser.GameObjects.Container {
           })
           this.scene.add.existing(mapChip)
           this.add(mapChip)
+
+          this.chipList.push(mapChip)
         })
       }
     } else {
-      console.log(this)
+      console.log(map)
+
+      for (const yIndex of range(0, map.height)) {
+        const row = map.getFloorRow(yIndex)
+
+        row.forEach((item, xIndex) => {
+          const mapChip = this.chipList[yIndex * this.width + xIndex]
+          mapChip.update(item)
+        })
+      }
     }
   }
 }

@@ -11,6 +11,8 @@ function floorTypeToColor (floorType: MEMapFloorType): number {
 export type OnClickMapChip = () => void
 
 export class MapChip extends Phaser.GameObjects.Container {
+  // TODO Rectangleだとだめそう
+  private rect: Phaser.GameObjects.Rectangle
   constructor (
     scene: Phaser.Scene,
     x: number,
@@ -21,11 +23,14 @@ export class MapChip extends Phaser.GameObjects.Container {
   ) {
     super(scene, x, y)
 
-    const rect = this.scene.add.rectangle(chipSize / 2, chipSize / 2, chipSize, chipSize, floorTypeToColor(floor))
+    this.rect = this.scene.add.rectangle(chipSize / 2, chipSize / 2, chipSize, chipSize, floorTypeToColor(floor))
+    this.rect.setInteractive()
+    this.rect.on('pointerup', () => { onClick() })
 
-    rect.setInteractive()
-    rect.on('pointerup', () => { onClick() })
+    this.add(this.rect)
+  }
 
-    this.add(rect)
+  update (floor: MEMapFloorType) {
+    this.rect.setFillStyle(floorTypeToColor(floor))
   }
 }
