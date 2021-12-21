@@ -1,5 +1,6 @@
 import { MEMapCorner } from './MapEditorUseCase'
 import { MEMapFloorType, numberToType, typeToNumber } from './MEMapFloorType'
+import { MEMapWallType, numberToWallType } from './MEMapWallType'
 
 export class MEMap {
   constructor (
@@ -16,10 +17,9 @@ export class MEMap {
     return numberToType(this.rawFloor[index])
   }
 
-  // TODO return WallType
-  getWalls (x: number, y: number): Array<number> {
+  getWalls (x: number, y: number): Array<MEMapWallType> {
     const index = this.width * y + x
-    return this.rawWall[index]
+    return this.rawWall[index].map(it => numberToWallType(it))
   }
 
   updateFloor (x: number, y: number, value: MEMapFloorType): MEMap {

@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import { MEMapFloorType } from '../../usecases/mapeditor/MEMapFloorType'
+import { MEMapWallType } from '../../usecases/mapeditor/MEMapWallType'
 
 function floorTypeToColor (floorType: MEMapFloorType): number {
   switch (floorType) {
@@ -8,8 +9,8 @@ function floorTypeToColor (floorType: MEMapFloorType): number {
   }
 }
 
-function wallTypeToAlpha (wallType: number): number {
-  if (wallType === 0) return 0
+function wallTypeToAlpha (wallType: MEMapWallType): number {
+  if (wallType === 'none') return 0
   else return 1
 }
 
@@ -25,7 +26,7 @@ export class MapChip extends Phaser.GameObjects.Container {
     y: number,
     chipSize: number,
     floor: MEMapFloorType,
-    wall: Array<number>,
+    wall: Array<MEMapWallType>,
     onClick: OnClickMapChip
   ) {
     super(scene, x, y)
