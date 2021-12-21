@@ -40,11 +40,11 @@ export class Map extends Phaser.GameObjects.Container {
 
       for (const yIndex of range(0, map.height)) {
         for (const xIndex of range(0, map.width)) {
-          const item = map.getFloor(xIndex, yIndex)
+          const floor = map.getFloor(xIndex, yIndex)
           const chipX0 = mapX0 + chipSize * xIndex
           const chipY0 = mapY0 + chipSize * yIndex
 
-          const mapChip = new MapChip(this.scene, chipX0, chipY0, chipSize, item, () => {
+          const mapChip = new MapChip(this.scene, chipX0, chipY0, chipSize, floor, () => {
             this.mapEditorViewModel.onClickMapChip(xIndex, yIndex)
           })
           this.scene.add.existing(mapChip)
@@ -56,10 +56,10 @@ export class Map extends Phaser.GameObjects.Container {
     } else {
       for (const yIndex of range(0, map.height)) {
         for (const xIndex of range(0, map.width)) {
-          const item = map.getFloor(xIndex, yIndex)
+          const floor = map.getFloor(xIndex, yIndex)
           const index = yIndex * map.width + xIndex
           const mapChip = this.chipList[index]
-          mapChip.update(item)
+          mapChip.update(floor)
         }
       }
     }
